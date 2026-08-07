@@ -21,12 +21,14 @@
   input.tabctl{display:none;}
   main .view{display:none;}
   #nav-itinerary:checked ~ main #view-itinerary{display:block;}
+  #nav-todo:checked ~ main #view-todo{display:block;}
   #nav-phrases:checked ~ main #view-phrases{display:block;}
   #nav-money:checked ~ main #view-money{display:block;}
   #nav-emergency:checked ~ main #view-emergency{display:block;}
 
   nav.tabbar label{color:#999;}
   #nav-itinerary:checked ~ nav.tabbar label[for="nav-itinerary"],
+  #nav-todo:checked ~ nav.tabbar label[for="nav-todo"],
   #nav-phrases:checked ~ nav.tabbar label[for="nav-phrases"],
   #nav-money:checked ~ nav.tabbar label[for="nav-money"],
   #nav-emergency:checked ~ nav.tabbar label[for="nav-emergency"]{ color:var(--green-dark); }
@@ -42,6 +44,18 @@
   #ptab-eating:checked ~ main #view-phrases label[for="ptab-eating"],
   #ptab-shopping:checked ~ main #view-phrases label[for="ptab-shopping"],
   #ptab-numbers:checked ~ main #view-phrases label[for="ptab-numbers"]{
+    background:var(--green-dark); color:#fff; border-color:var(--green-dark);
+  }
+
+  main .dcat{display:none;}
+  #dtab-rio:checked ~ main #dcat-rio{display:block;}
+  #dtab-foz:checked ~ main #dcat-foz{display:block;}
+  #dtab-buzios:checked ~ main #dcat-buzios{display:block;}
+
+  #view-todo .sectiontabs label{background:#fff; color:#444; border-color:var(--line);}
+  #dtab-rio:checked ~ main #view-todo label[for="dtab-rio"],
+  #dtab-foz:checked ~ main #view-todo label[for="dtab-foz"],
+  #dtab-buzios:checked ~ main #view-todo label[for="dtab-buzios"]{
     background:var(--green-dark); color:#fff; border-color:var(--green-dark);
   }
   /* ---------------------------------------------- */
@@ -102,11 +116,29 @@
   nav.tabbar label .ic{font-size:19px;}
   .offline-note{text-align:center; font-size:11px; color:var(--muted); margin:6px 0 14px;}
   noscript .conv input{pointer-events:none;}
+
+  .nearme{background:linear-gradient(135deg,#ecfdf5,#f0fdf4); border:1px solid #a7f3d0; border-radius:14px; padding:14px 16px; margin-bottom:14px;}
+  .nearme .lead{font-size:13px; color:#065f46; margin-bottom:10px; line-height:1.4;}
+  .nearme button{width:100%; background:var(--green-dark); color:#fff; border:none; border-radius:10px;
+    padding:11px; font-size:14px; font-weight:700; cursor:pointer;}
+  .nearme button:disabled{opacity:.6;}
+  #nearmeStatus{font-size:12.5px; color:#065f46; margin-top:8px; line-height:1.4;}
+  #nearmeResults{margin-top:10px;}
+  .nearrow{display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid #d7f2e3; font-size:13px; gap:8px;}
+  .nearrow:last-child{border-bottom:none;}
+  .nearrow .dist{font-weight:700; color:var(--green-dark); white-space:nowrap; font-size:12.5px;}
+  .nearrow a{color:var(--green-dark); text-decoration:none; font-weight:600;}
+  .place{padding:8px 0; border-bottom:1px solid #f0f0ee;}
+  .place:last-child{border-bottom:none;}
+  .place .pname{font-weight:700; font-size:14px; margin-bottom:2px;}
+  .place .pdesc{font-size:12.5px; color:#555; line-height:1.4;}
+  .place a.dirlink{font-size:11.5px; color:var(--green-dark); text-decoration:none; font-weight:600;}
 </style>
 </head>
 <body>
 
 <input class="tabctl" type="radio" name="tab" id="nav-itinerary" checked>
+<input class="tabctl" type="radio" name="tab" id="nav-todo">
 <input class="tabctl" type="radio" name="tab" id="nav-phrases">
 <input class="tabctl" type="radio" name="tab" id="nav-money">
 <input class="tabctl" type="radio" name="tab" id="nav-emergency">
@@ -114,6 +146,9 @@
 <input class="tabctl" type="radio" name="ptab" id="ptab-eating">
 <input class="tabctl" type="radio" name="ptab" id="ptab-shopping">
 <input class="tabctl" type="radio" name="ptab" id="ptab-numbers">
+<input class="tabctl" type="radio" name="dtab" id="dtab-rio" checked>
+<input class="tabctl" type="radio" name="dtab" id="dtab-foz">
+<input class="tabctl" type="radio" name="dtab" id="dtab-buzios">
 
 <header>
   <h1>🇧🇷 Brazil Trip 2026</h1>
@@ -177,6 +212,101 @@
       <span class="badge ok">COVERED</span>
       <h3>🛡️ Travel insurance</h3>
       <div class="detail">Amex Platinum complimentary policy — covers all 4 travellers. Worth double-checking it covers Foz activities specifically.</div>
+    </div>
+  </section>
+
+  <!-- THINGS TO DO -->
+  <section class="view" id="view-todo">
+    <div class="nearme">
+      <div class="lead">Use your phone's GPS to find which of these are closest to you right now.</div>
+      <button type="button" id="nearmeBtn">📍 Find what's near me</button>
+      <div id="nearmeStatus"></div>
+      <div id="nearmeResults"></div>
+    </div>
+
+    <div class="sectiontabs">
+      <label for="dtab-rio">Rio (10–16 Aug)</label>
+      <label for="dtab-foz">Foz (16–20 Aug)</label>
+      <label for="dtab-buzios">Búzios (20–24 Aug)</label>
+    </div>
+
+    <div class="card dcat" id="dcat-rio">
+      <h2>Rio de Janeiro</h2>
+      <div class="place">
+        <div class="pname">Christ the Redeemer (Corcovado)</div>
+        <div class="pdesc">Book the van/train up early — first departures around 7:20am beat both the queues and the midday cloud cover.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-22.9519,-43.2105">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">Sugarloaf Mountain (Pão de Açúcar)</div>
+        <div class="pdesc">Cable car in two stages from Urca. Good any time of day; sunset is the busiest slot.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-22.9492,-43.1545">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">Copacabana Beach</div>
+        <div class="pdesc">Right by Miramar. Walk the beachfront promenade towards Copacabana Fort.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-22.9711,-43.1822">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">Ipanema Beach</div>
+        <div class="pdesc">A short taxi/metro ride from Copacabana — calmer, well known for the sunset at Arpoador rock.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-22.9838,-43.2096">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">Escadaria Selarón (Selarón Steps)</div>
+        <div class="pdesc">Colourful mosaic staircase in Lapa/Santa Teresa — worth combining with the Santa Teresa tram.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-22.9151,-43.1794">Directions →</a>
+      </div>
+    </div>
+
+    <div class="card dcat" id="dcat-foz">
+      <h2>Foz do Iguaçu</h2>
+      <div class="place">
+        <div class="pname">Cataratas do Iguaçu (Brazilian side)</div>
+        <div class="pdesc">Book ahead at cataratasdoiguacu.com.br — ~R$131/adult (foreign visitors). Open Mon–Fri 9am–4pm, weekends 8:30am–4pm. Quietest 9–9:30am or 2–4pm.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-25.6953,-54.4367">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">Macuco Safari (boat to the falls)</div>
+        <div class="pdesc">Inside the park — a boat ride right up to the base of the falls. Bring a dry bag; you will get soaked.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-25.6802,-54.4406">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">Parque das Aves (Bird Park)</div>
+        <div class="pdesc">Walk-through aviaries right next to the falls entrance — good half-day add-on, toucans included.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-25.6484,-54.4530">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">Itaipu Dam</div>
+        <div class="pdesc">One of the world's largest hydroelectric dams — panoramic tour is the quick option, further out from the falls.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-25.4084,-54.5878">Directions →</a>
+      </div>
+      <div class="detail" style="margin-top:6px;">Remember: no ride-hail access inside the national park (see Itinerary tab) — arrange transfers with Sanma Hotel or an official taxi.</div>
+    </div>
+
+    <div class="card dcat" id="dcat-buzios">
+      <h2>Búzios</h2>
+      <div class="place">
+        <div class="pname">Ferradura Beach</div>
+        <div class="pdesc">Calm, horseshoe-shaped bay right by Insólito — good for paddleboarding/kayaking, family-friendly water.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-22.7602,-41.8802">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">Rua das Pedras</div>
+        <div class="pdesc">Búzios' main strip — shops, restaurants and bars, best in the evening.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-22.7469,-41.8817">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">João Fernandes Beach</div>
+        <div class="pdesc">Búzios' most popular beach — golden sand, clear water, good for swimming and snorkelling.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-22.7469,-41.8744">Directions →</a>
+      </div>
+      <div class="place">
+        <div class="pname">Geribá Beach</div>
+        <div class="pdesc">Lively surf beach with a good stretch of bars and restaurants right on the sand.</div>
+        <a class="dirlink" href="https://www.google.com/maps/search/?api=1&query=-22.7639,-41.8965">Directions →</a>
+      </div>
+      <div class="detail" style="margin-top:6px;">A schooner boat day-trip around the peninsula's beaches is a popular way to see several coves in one go — worth booking through the hotel.</div>
     </div>
   </section>
 
@@ -320,6 +450,7 @@
 
 <nav class="tabbar">
   <label for="nav-itinerary"><span class="ic">🗓️</span>Itinerary</label>
+  <label for="nav-todo"><span class="ic">🧭</span>To do</label>
   <label for="nav-phrases"><span class="ic">💬</span>Phrases</label>
   <label for="nav-money"><span class="ic">💰</span>Money</label>
   <label for="nav-emergency"><span class="ic">🚨</span>Emergency</label>
@@ -350,6 +481,86 @@
   swapBtn.addEventListener('click', function(){
     var g = gbpInput.value, b = brlInput.value;
     gbpInput.value = b; brlInput.value = g;
+  });
+})();
+
+// "What's near me" — pure client-side GPS distance, no API key, no server.
+// Progressive enhancement only: the full lists above work with zero JavaScript.
+(function(){
+  var btn = document.getElementById('nearmeBtn');
+  var statusEl = document.getElementById('nearmeStatus');
+  var resultsEl = document.getElementById('nearmeResults');
+  if(!btn) return;
+
+  var PLACES = [
+    { name:"Christ the Redeemer", area:"Rio", lat:-22.9519, lng:-43.2105 },
+    { name:"Sugarloaf Mountain", area:"Rio", lat:-22.9492, lng:-43.1545 },
+    { name:"Copacabana Beach", area:"Rio", lat:-22.9711, lng:-43.1822 },
+    { name:"Ipanema Beach", area:"Rio", lat:-22.9838, lng:-43.2096 },
+    { name:"Escadaria Selarón", area:"Rio", lat:-22.9151, lng:-43.1794 },
+    { name:"Cataratas do Iguaçu", area:"Foz", lat:-25.6953, lng:-54.4367 },
+    { name:"Macuco Safari", area:"Foz", lat:-25.6802, lng:-54.4406 },
+    { name:"Parque das Aves", area:"Foz", lat:-25.6484, lng:-54.4530 },
+    { name:"Itaipu Dam", area:"Foz", lat:-25.4084, lng:-54.5878 },
+    { name:"Ferradura Beach", area:"Búzios", lat:-22.7602, lng:-41.8802 },
+    { name:"Rua das Pedras", area:"Búzios", lat:-22.7469, lng:-41.8817 },
+    { name:"João Fernandes Beach", area:"Búzios", lat:-22.7469, lng:-41.8744 },
+    { name:"Geribá Beach", area:"Búzios", lat:-22.7639, lng:-41.8965 }
+  ];
+
+  function haversineKm(lat1, lon1, lat2, lon2){
+    var R = 6371;
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLon = (lon2 - lon1) * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  function fmtDist(km){
+    if(km < 1) return Math.round(km * 1000) + ' m';
+    return km.toFixed(1) + ' km';
+  }
+
+  btn.addEventListener('click', function(){
+    if(!('geolocation' in navigator)){
+      statusEl.textContent = "Your browser doesn't support location — browse the lists below instead.";
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Locating…';
+    statusEl.textContent = '';
+    resultsEl.innerHTML = '';
+
+    navigator.geolocation.getCurrentPosition(function(pos){
+      btn.disabled = false;
+      btn.textContent = "📍 Find what's near me";
+      var lat = pos.coords.latitude, lng = pos.coords.longitude;
+
+      var withDist = PLACES.map(function(p){
+        return {
+          name: p.name, area: p.area,
+          km: haversineKm(lat, lng, p.lat, p.lng),
+          mapsUrl: 'https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng
+        };
+      }).sort(function(a, b){ return a.km - b.km; });
+
+      statusEl.textContent = 'Closest spots to you right now:';
+      resultsEl.innerHTML = withDist.slice(0, 6).map(function(p){
+        return '<div class="nearrow"><span>' + p.name + ' <span style="color:#6b8f7f;">(' + p.area + ')</span></span>' +
+               '<span class="dist"><a href="' + p.mapsUrl + '" target="_blank" rel="noopener">' + fmtDist(p.km) + ' →</a></span></div>';
+      }).join('');
+    }, function(err){
+      btn.disabled = false;
+      btn.textContent = "📍 Find what's near me";
+      if(err && err.code === 1){
+        statusEl.textContent = 'Location permission denied — you can still browse the full lists below.';
+      } else {
+        statusEl.textContent = "Couldn't get your location — you can still browse the full lists below.";
+      }
+    }, { enableHighAccuracy:true, timeout:10000 });
   });
 })();
 </script>
