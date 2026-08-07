@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Brazil 2026">
+<title>Brazil Trip 2026 — Family Guide</title>
+<style>
+  :root{
+    --green:#059669; --green-dark:#065f46; --bg:#f6f7f5; --card:#ffffff;
+    --line:#e4e4e0; --text:#1a1a1a; --muted:#767672; --red:#dc2626; --redbg:#fef2f2;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+  body{padding-bottom:80px;}
+
+  /* ---- CSS-only tabs: no JavaScript required ---- */
+  input.tabctl{display:none;}
+  main .view{display:none;}
+  #nav-itinerary:checked ~ main #view-itinerary{display:block;}
+  #nav-phrases:checked ~ main #view-phrases{display:block;}
+  #nav-money:checked ~ main #view-money{display:block;}
+  #nav-emergency:checked ~ main #view-emergency{display:block;}
+
+  nav.tabbar label{color:#999;}
+  #nav-itinerary:checked ~ nav.tabbar label[for="nav-itinerary"],
+  #nav-phrases:checked ~ nav.tabbar label[for="nav-phrases"],
+  #nav-money:checked ~ nav.tabbar label[for="nav-money"],
+  #nav-emergency:checked ~ nav.tabbar label[for="nav-emergency"]{ color:var(--green-dark); }
+
+  main .pcat{display:none;}
+  #ptab-essentials:checked ~ main #pcat-essentials{display:block;}
+  #ptab-eating:checked ~ main #pcat-eating{display:block;}
+  #ptab-shopping:checked ~ main #pcat-shopping{display:block;}
+  #ptab-numbers:checked ~ main #pcat-numbers{display:block;}
+
+  #view-phrases .sectiontabs label{background:#fff; color:#444; border-color:var(--line);}
+  #ptab-essentials:checked ~ main #view-phrases label[for="ptab-essentials"],
+  #ptab-eating:checked ~ main #view-phrases label[for="ptab-eating"],
+  #ptab-shopping:checked ~ main #view-phrases label[for="ptab-shopping"],
+  #ptab-numbers:checked ~ main #view-phrases label[for="ptab-numbers"]{
+    background:var(--green-dark); color:#fff; border-color:var(--green-dark);
+  }
+  /* ---------------------------------------------- */
+
+  header{
+    position:sticky; top:0; z-index:10;
+    background:linear-gradient(135deg,#065f46,#059669);
+    color:#fff; padding:14px 16px 12px; padding-top:calc(14px + env(safe-area-inset-top));
+  }
+  header h1{margin:0; font-size:19px; font-weight:700;}
+  header .sub{font-size:12px; opacity:.85; margin-top:2px;}
+  main{padding:14px 14px 20px; max-width:640px; margin:0 auto;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 15px; margin-bottom:12px;}
+  .card h2{font-size:13px; text-transform:uppercase; letter-spacing:.4px; color:var(--green-dark); margin:0 0 8px;}
+  .card h3{font-size:15px; margin:0 0 4px;}
+  .badge{display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:9px; margin-bottom:6px;}
+  .badge.ok{background:#dcfce7; color:#166534;}
+  .row{display:flex; justify-content:space-between; gap:10px; font-size:13.5px; padding:5px 0; border-bottom:1px solid #f0f0ee;}
+  .row:last-child{border-bottom:none;}
+  .row .k{color:var(--muted);}
+  .row .v{font-weight:600; text-align:right;}
+  .detail{font-size:13px; color:#444; line-height:1.5;}
+  .detail code{background:#f1f1ee; padding:1px 5px; border-radius:5px; font-size:12px;}
+  .alert{border-radius:12px; padding:10px 13px; font-size:13px; line-height:1.4; margin-bottom:12px;}
+  .alert.warn{background:var(--redbg); border:1px solid #fecaca; color:#7f1d1d;}
+  .phrase{display:flex; justify-content:space-between; align-items:baseline; padding:6px 0; border-bottom:1px solid #f0f0ee; gap:10px;}
+  .phrase:last-child{border-bottom:none;}
+  .phrase .pt{font-weight:700; color:var(--green-dark); font-size:14px;}
+  .phrase .en{font-size:12.5px; color:#555; text-align:right;}
+  .phrase .pron{display:block; font-size:11px; color:var(--muted); font-style:italic;}
+  .sectiontabs{display:flex; gap:6px; overflow-x:auto; margin-bottom:10px; padding-bottom:2px;}
+  .sectiontabs label{flex-shrink:0; border:1px solid var(--line); font-size:12.5px;
+    padding:6px 12px; border-radius:20px; font-weight:600; cursor:pointer;}
+  .conv{background:linear-gradient(135deg,#ecfdf5,#f0fdf4); border:1px solid #a7f3d0; border-radius:14px; padding:16px;}
+  .conv .rate{font-size:12px; color:var(--green-dark); font-weight:700; margin-bottom:10px; text-align:center;}
+  .conv .inputs{display:flex; align-items:center; gap:10px;}
+  .conv .field{flex:1;}
+  .conv label.fieldlabel{font-size:11px; color:var(--muted); font-weight:700; display:block; margin-bottom:4px;}
+  .conv input{width:100%; font-size:22px; padding:10px 12px; border-radius:10px; border:1px solid #bbf7d0;
+    background:#fff; font-weight:700; color:var(--green-dark); -webkit-appearance:none;}
+  .conv .swap{font-size:20px; background:var(--green); color:#fff; border:none; width:38px; height:38px;
+    border-radius:50%; flex-shrink:0; margin-top:14px;}
+  .conv .trick{margin-top:12px; font-size:12.5px; color:#065f46; background:#fff; border:1px dashed #6ee7b7;
+    border-radius:8px; padding:8px 10px;}
+  .emrow{display:flex; justify-content:space-between; font-size:14px; padding:8px 0; border-bottom:1px solid #f0f0ee;}
+  .emrow:last-child{border-bottom:none;}
+  .emrow a{color:var(--green-dark); font-weight:700; text-decoration:none;}
+  ul.tight{margin:4px 0; padding-left:18px;}
+  ul.tight li{margin-bottom:5px; font-size:13px; line-height:1.4;}
+  nav.tabbar{
+    position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--line);
+    display:flex; padding-bottom:env(safe-area-inset-bottom); z-index:10;
+  }
+  nav.tabbar label{
+    flex:1; padding:9px 2px 8px; display:flex; flex-direction:column;
+    align-items:center; gap:2px; font-size:10.5px; font-weight:600; cursor:pointer;
+  }
+  nav.tabbar label .ic{font-size:19px;}
+  .offline-note{text-align:center; font-size:11px; color:var(--muted); margin:6px 0 14px;}
+  noscript .conv input{pointer-events:none;}
+</style>
+</head>
+<body>
+
+<input class="tabctl" type="radio" name="tab" id="nav-itinerary" checked>
+<input class="tabctl" type="radio" name="tab" id="nav-phrases">
+<input class="tabctl" type="radio" name="tab" id="nav-money">
+<input class="tabctl" type="radio" name="tab" id="nav-emergency">
+<input class="tabctl" type="radio" name="ptab" id="ptab-essentials" checked>
+<input class="tabctl" type="radio" name="ptab" id="ptab-eating">
+<input class="tabctl" type="radio" name="ptab" id="ptab-shopping">
+<input class="tabctl" type="radio" name="ptab" id="ptab-numbers">
+
+<header>
+  <h1>🇧🇷 Brazil Trip 2026</h1>
+  <div class="sub">Dipesh · Rita · Amber · Anoushka &nbsp;|&nbsp; 9–25 Aug</div>
+</header>
+
+<main>
+
+  <!-- ITINERARY -->
+  <section class="view" id="view-itinerary">
+    <div class="offline-note">Works fully offline — saved on your phone, no signal needed. No internet or JavaScript required to use this page.</div>
+
+    <div class="alert warn">
+      <b>⚠ Action needed:</b> Insólito (Búzios) lists minimum check-in age 18 — Amber is 17. Call <a href="tel:+552299724709" style="color:#7f1d1d;">+55 22 9972-4709</a> to confirm before the 12 Aug free-cancellation deadline.
+    </div>
+
+    <div class="card">
+      <span class="badge ok">CONFIRMED</span>
+      <h3>✈️ Flights — BA · ref XVOTPE</h3>
+      <div class="row"><span class="k">Out · BA0249</span><span class="v">Sun 9 Aug 21:45 LHR T5</span></div>
+      <div class="row"><span class="k">Arrives</span><span class="v">Mon 10 Aug 05:25 Rio (GIG) T2</span></div>
+      <div class="row"><span class="k">Back · BA0248</span><span class="v">Mon 24 Aug 16:45 Rio T2</span></div>
+      <div class="row"><span class="k">Arrives</span><span class="v">Tue 25 Aug 08:10 LHR T5</span></div>
+      <div class="row"><span class="k">Seats</span><span class="v">Dipesh 32F · Rita 32G · Amber 32D · Anoushka 32E</span></div>
+    </div>
+
+    <div class="card">
+      <span class="badge ok">CONFIRMED</span>
+      <h3>🏨 Rio — Miramar By Windsor Copacabana</h3>
+      <div class="row"><span class="k">Dates</span><span class="v">Mon 10 – Sun 16 Aug</span></div>
+      <div class="row"><span class="k">Booking</span><span class="v"><code>6211157792</code></span></div>
+      <div class="row"><span class="k">Airport transfer</span><span class="v">Booked · ref 588781841</span></div>
+    </div>
+
+    <div class="card">
+      <span class="badge ok">CONFIRMED · TICKETED</span>
+      <h3>✈️ Rio ↔ Foz do Iguaçu — Trip.com</h3>
+      <div class="row"><span class="k">Out</span><span class="v">Sun 16 Aug, 17:20 → 19:35</span></div>
+      <div class="row"><span class="k">Back</span><span class="v">Thu 20 Aug, 10:15 → 12:15</span></div>
+      <div class="row"><span class="k">E-ticket</span><span class="v"><code>A259TQ</code></span></div>
+    </div>
+
+    <div class="card">
+      <span class="badge ok">CONFIRMED</span>
+      <h3>🏨 Foz do Iguaçu — Sanma Hotel (San Martin Resort)</h3>
+      <div class="row"><span class="k">Dates</span><span class="v">Sun 16 – Thu 20 Aug</span></div>
+      <div class="row"><span class="k">Booking</span><span class="v"><code>6211119814</code></span></div>
+      <div class="detail" style="margin-top:6px;">Inside the national park — airport transfer needs arranging directly with the hotel or a local taxi (no ride-hail access past the gate).</div>
+    </div>
+
+    <div class="card">
+      <span class="badge ok">CONFIRMED</span>
+      <h3>🏨 Búzios — Insólito Boutique Hotel &amp; Spa</h3>
+      <div class="row"><span class="k">Dates</span><span class="v">Thu 20 – Mon 24 Aug</span></div>
+      <div class="row"><span class="k">Booking</span><span class="v"><code>5464672524</code> · PIN 7620</span></div>
+      <div class="row"><span class="k">Rooms</span><span class="v">Master Suite (D+R) · Suite (A+A)</span></div>
+      <div class="detail" style="margin-top:6px;">Free cancellation until <b>12 Aug, 23:59</b> Brazil time.</div>
+    </div>
+
+    <div class="card">
+      <span class="badge ok">COVERED</span>
+      <h3>🛡️ Travel insurance</h3>
+      <div class="detail">Amex Platinum complimentary policy — covers all 4 travellers. Worth double-checking it covers Foz activities specifically.</div>
+    </div>
+  </section>
+
+  <!-- PHRASEBOOK -->
+  <section class="view" id="view-phrases">
+    <div class="sectiontabs">
+      <label for="ptab-essentials">Essentials</label>
+      <label for="ptab-eating">Eating</label>
+      <label for="ptab-shopping">Shopping</label>
+      <label for="ptab-numbers">Numbers</label>
+    </div>
+
+    <div class="card pcat" id="pcat-essentials">
+      <h2>Essentials</h2>
+      <div class="phrase"><span class="pt">Olá / Oi<span class="pron">oh-LAH / oy</span></span><span class="en">Hello / Hi</span></div>
+      <div class="phrase"><span class="pt">Bom dia<span class="pron">bohn JEE-ah</span></span><span class="en">Good morning</span></div>
+      <div class="phrase"><span class="pt">Boa tarde / noite<span class="pron">BOH-ah TAR-jee / NOY-chee</span></span><span class="en">Good afternoon / evening</span></div>
+      <div class="phrase"><span class="pt">Por favor<span class="pron">por fah-VOR</span></span><span class="en">Please</span></div>
+      <div class="phrase"><span class="pt">Obrigado/a<span class="pron">oh-bree-GAH-doo/dah</span></span><span class="en">Thank you</span></div>
+      <div class="phrase"><span class="pt">De nada<span class="pron">jee NAH-dah</span></span><span class="en">You're welcome</span></div>
+      <div class="phrase"><span class="pt">Com licença<span class="pron">kohn lee-SEN-sah</span></span><span class="en">Excuse me</span></div>
+      <div class="phrase"><span class="pt">Desculpa<span class="pron">dess-KOOL-pah</span></span><span class="en">Sorry</span></div>
+      <div class="phrase"><span class="pt">Sim / Não<span class="pron">seeng / nah-oo</span></span><span class="en">Yes / No</span></div>
+      <div class="phrase"><span class="pt">Fala inglês?<span class="pron">FAH-lah een-GLESS</span></span><span class="en">Do you speak English?</span></div>
+      <div class="phrase"><span class="pt">Não entendo<span class="pron">nah-oo en-TEN-doo</span></span><span class="en">I don't understand</span></div>
+      <div class="phrase"><span class="pt">Onde fica...?<span class="pron">OHN-jee FEE-kah</span></span><span class="en">Where is...?</span></div>
+      <div class="phrase"><span class="pt">Quanto custa?<span class="pron">KWAN-too KOOS-tah</span></span><span class="en">How much is it?</span></div>
+      <div class="phrase"><span class="pt">Tudo bem?<span class="pron">TOO-doo beng</span></span><span class="en">All good?</span></div>
+    </div>
+
+    <div class="card pcat" id="pcat-eating">
+      <h2>Eating &amp; Drinking</h2>
+      <div class="phrase"><span class="pt">A conta, por favor<span class="pron">ah KOHN-tah</span></span><span class="en">The bill, please</span></div>
+      <div class="phrase"><span class="pt">Uma mesa para 4<span class="pron">OO-mah MEH-zah</span></span><span class="en">A table for 4</span></div>
+      <div class="phrase"><span class="pt">Água com/sem gás<span class="pron">AH-gwah kohn/seng gahz</span></span><span class="en">Water with/without gas</span></div>
+      <div class="phrase"><span class="pt">Cerveja gelada<span class="pron">ser-VAY-zhah</span></span><span class="en">Cold beer</span></div>
+      <div class="phrase"><span class="pt">Caipirinha<span class="pron">kai-pee-REEN-yah</span></span><span class="en">The classic cocktail</span></div>
+      <div class="phrase"><span class="pt">Delicioso!<span class="pron">deh-lee-see-OH-zoo</span></span><span class="en">Delicious!</span></div>
+      <div class="phrase"><span class="pt">Sou vegetariano/a<span class="pron">soh veh-zheh-tah-ree-AH-noo</span></span><span class="en">I'm vegetarian</span></div>
+      <div class="phrase"><span class="pt">Sem pimenta<span class="pron">seng pee-MEN-tah</span></span><span class="en">No chili/pepper</span></div>
+    </div>
+
+    <div class="card pcat" id="pcat-shopping">
+      <h2>Shopping &amp; Bargaining</h2>
+      <div class="phrase"><span class="pt">Tem desconto?<span class="pron">teng des-KOHN-too</span></span><span class="en">Any discount?</span></div>
+      <div class="phrase"><span class="pt">Aceita cartão?<span class="pron">ah-SAY-tah kar-TOW</span></span><span class="en">Do you take card?</span></div>
+      <div class="phrase"><span class="pt">Só dinheiro?<span class="pron">soh jeen-YAY-roo</span></span><span class="en">Cash only?</span></div>
+      <div class="phrase"><span class="pt">Muito caro<span class="pron">MOO-ee-too KAH-roo</span></span><span class="en">Too expensive</span></div>
+      <div class="phrase"><span class="pt">Fico com esse<span class="pron">FEE-koo kohn ESS-ee</span></span><span class="en">I'll take this one</span></div>
+    </div>
+
+    <div class="card pcat" id="pcat-numbers">
+      <h2>Numbers</h2>
+      <div class="phrase"><span class="pt">um / dois / três<span class="pron">oom / doys / trays</span></span><span class="en">1 / 2 / 3</span></div>
+      <div class="phrase"><span class="pt">quatro / cinco<span class="pron">KWAH-troo / SEEN-koo</span></span><span class="en">4 / 5</span></div>
+      <div class="phrase"><span class="pt">seis / sete<span class="pron">says / SEH-chee</span></span><span class="en">6 / 7</span></div>
+      <div class="phrase"><span class="pt">oito / nove / dez<span class="pron">OY-too / NAW-vee / dez</span></span><span class="en">8 / 9 / 10</span></div>
+      <div class="phrase"><span class="pt">vinte<span class="pron">VEEN-chee</span></span><span class="en">20</span></div>
+      <div class="phrase"><span class="pt">cinquenta<span class="pron">seen-KWEN-tah</span></span><span class="en">50</span></div>
+      <div class="phrase"><span class="pt">cem<span class="pron">seng</span></span><span class="en">100</span></div>
+      <div class="phrase"><span class="pt">mil<span class="pron">mee-oo</span></span><span class="en">1000</span></div>
+    </div>
+  </section>
+
+  <!-- MONEY -->
+  <section class="view" id="view-money">
+    <div class="conv">
+      <div class="rate">£1 ≈ R$6.90 &nbsp;·&nbsp; rate saved offline, Aug 2026</div>
+      <div class="inputs">
+        <div class="field">
+          <label class="fieldlabel">GBP (£)</label>
+          <input type="number" inputmode="decimal" id="gbpInput" value="10">
+        </div>
+        <button class="swap" id="swapBtn" type="button">⇄</button>
+        <div class="field">
+          <label class="fieldlabel">BRL (R$)</label>
+          <input type="number" inputmode="decimal" id="brlInput" value="69">
+        </div>
+      </div>
+      <div class="trick"><b>Rule of 7:</b> divide any BRL price by 7 for a fast, safe-side GBP estimate.<br>R$70→£10 · R$350→£50 · R$700→£100</div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <h2>Quick reference (works even without JavaScript)</h2>
+      <div class="row"><span class="k">R$10</span><span class="v">≈ £1.45</span></div>
+      <div class="row"><span class="k">R$25</span><span class="v">≈ £3.60</span></div>
+      <div class="row"><span class="k">R$50</span><span class="v">≈ £7.25</span></div>
+      <div class="row"><span class="k">R$100</span><span class="v">≈ £14.50</span></div>
+      <div class="row"><span class="k">R$200</span><span class="v">≈ £29</span></div>
+      <div class="row"><span class="k">R$500</span><span class="v">≈ £72</span></div>
+      <div class="row"><span class="k">R$1,000</span><span class="v">≈ £145</span></div>
+      <div class="detail" style="margin-top:8px;">Rate moves daily (recent range ~6.82–6.91) — cards (Amex/Visa) usually beat airport cash kiosks.</div>
+    </div>
+
+    <div class="card">
+      <h2>Tipping &amp; money norms</h2>
+      <ul class="tight">
+        <li>Restaurants: 10% "serviço" is usually already added — check before tipping again.</li>
+        <li>No service charge shown? 10% is polite, not obligatory.</li>
+        <li>Taxis/rideshare: round up, no expected tip.</li>
+        <li>Hotel porters: R$5–10 per bag.</li>
+        <li>Small vendors/street food: carry small BRL notes.</li>
+        <li>Foz park entries &amp; official taxis: card usually fine.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- EMERGENCY -->
+  <section class="view" id="view-emergency">
+    <div class="card">
+      <h2>Emergency numbers</h2>
+      <div class="emrow"><span>Police</span><a href="tel:190">190</a></div>
+      <div class="emrow"><span>Ambulance (SAMU)</span><a href="tel:192">192</a></div>
+      <div class="emrow"><span>Fire</span><a href="tel:193">193</a></div>
+      <div class="emrow"><span>Insólito Hotel (Búzios)</span><a href="tel:+552299724709">+55 22 9972-4709</a></div>
+    </div>
+    <div class="card">
+      <h2>Group phone numbers</h2>
+      <div class="emrow"><span>Dipesh</span><a href="tel:+447740925898">+44 7740 925898</a></div>
+      <div class="emrow"><span>Rita</span><a href="tel:+447976631757">+44 7976 631757</a></div>
+      <div class="emrow"><span>Amber</span><a href="tel:+447707385908">+44 7707 385908</a></div>
+      <div class="emrow"><span>Anoushka</span><a href="tel:+447730547762">+44 7730 547762</a></div>
+      <div class="emrow"><span>Heman</span><a href="tel:+447891900128">+44 7891 900128</a></div>
+      <div class="emrow"><span>Sunir</span><a href="tel:+447931302880">+44 7931 302880</a></div>
+    </div>
+    <div class="card">
+      <h2>Emergency phrases</h2>
+      <div class="phrase"><span class="pt">Socorro!<span class="pron">soh-KOH-hoo</span></span><span class="en">Help!</span></div>
+      <div class="phrase"><span class="pt">Chame a polícia<span class="pron">SHAH-mee ah po-LEE-see-ah</span></span><span class="en">Call the police</span></div>
+      <div class="phrase"><span class="pt">Preciso de um médico<span class="pron">preh-SEE-zoo jee oong MEH-jee-koo</span></span><span class="en">I need a doctor</span></div>
+      <div class="phrase"><span class="pt">Perdi meu passaporte<span class="pron">per-JEE meh-oo pah-sah-POR-chee</span></span><span class="en">I lost my passport</span></div>
+      <div class="phrase"><span class="pt">Onde é o hospital?<span class="pron">OHN-jee eh oo os-pee-TAHL</span></span><span class="en">Where's the hospital?</span></div>
+    </div>
+    <div class="card">
+      <h2>Insurance</h2>
+      <div class="detail">Amex Platinum complimentary travel insurance covers all 4 travellers. Keep the Amex card + a photo of the policy summary handy.</div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="tabbar">
+  <label for="nav-itinerary"><span class="ic">🗓️</span>Itinerary</label>
+  <label for="nav-phrases"><span class="ic">💬</span>Phrases</label>
+  <label for="nav-money"><span class="ic">💰</span>Money</label>
+  <label for="nav-emergency"><span class="ic">🚨</span>Emergency</label>
+</nav>
+
+<script>
+// Currency converter — progressive enhancement only.
+// Tab navigation above works without this script (pure CSS radio/label technique).
+(function(){
+  var RATE = 6.90;
+  var gbpInput = document.getElementById('gbpInput');
+  var brlInput = document.getElementById('brlInput');
+  var swapBtn = document.getElementById('swapBtn');
+  if(!gbpInput || !brlInput || !swapBtn) return;
+
+  function fromGbp(){
+    var g = parseFloat(gbpInput.value);
+    if(isNaN(g)){ brlInput.value=''; return; }
+    brlInput.value = Math.round(g*RATE*100)/100;
+  }
+  function fromBrl(){
+    var b = parseFloat(brlInput.value);
+    if(isNaN(b)){ gbpInput.value=''; return; }
+    gbpInput.value = Math.round((b/RATE)*100)/100;
+  }
+  gbpInput.addEventListener('input', fromGbp);
+  brlInput.addEventListener('input', fromBrl);
+  swapBtn.addEventListener('click', function(){
+    var g = gbpInput.value, b = brlInput.value;
+    gbpInput.value = b; brlInput.value = g;
+  });
+})();
+</script>
+
+</body>
+</html>
