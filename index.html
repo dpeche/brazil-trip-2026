@@ -22,6 +22,7 @@
   main .view{display:none;}
   #nav-itinerary:checked ~ main #view-itinerary{display:block;}
   #nav-todo:checked ~ main #view-todo{display:block;}
+  #nav-food:checked ~ main #view-food{display:block;}
   #nav-phrases:checked ~ main #view-phrases{display:block;}
   #nav-money:checked ~ main #view-money{display:block;}
   #nav-emergency:checked ~ main #view-emergency{display:block;}
@@ -29,6 +30,7 @@
   nav.tabbar label{color:#999;}
   #nav-itinerary:checked ~ nav.tabbar label[for="nav-itinerary"],
   #nav-todo:checked ~ nav.tabbar label[for="nav-todo"],
+  #nav-food:checked ~ nav.tabbar label[for="nav-food"],
   #nav-phrases:checked ~ nav.tabbar label[for="nav-phrases"],
   #nav-money:checked ~ nav.tabbar label[for="nav-money"],
   #nav-emergency:checked ~ nav.tabbar label[for="nav-emergency"]{ color:var(--green-dark); }
@@ -56,6 +58,18 @@
   #dtab-rio:checked ~ main #view-todo label[for="dtab-rio"],
   #dtab-foz:checked ~ main #view-todo label[for="dtab-foz"],
   #dtab-buzios:checked ~ main #view-todo label[for="dtab-buzios"]{
+    background:var(--green-dark); color:#fff; border-color:var(--green-dark);
+  }
+
+  main .fcat{display:none;}
+  #ftab-rio:checked ~ main #fcat-rio{display:block;}
+  #ftab-foz:checked ~ main #fcat-foz{display:block;}
+  #ftab-buzios:checked ~ main #fcat-buzios{display:block;}
+
+  #view-food .sectiontabs label{background:#fff; color:#444; border-color:var(--line);}
+  #ftab-rio:checked ~ main #view-food label[for="ftab-rio"],
+  #ftab-foz:checked ~ main #view-food label[for="ftab-foz"],
+  #ftab-buzios:checked ~ main #view-food label[for="ftab-buzios"]{
     background:var(--green-dark); color:#fff; border-color:var(--green-dark);
   }
   /* ---------------------------------------------- */
@@ -133,6 +147,19 @@
   .place .pname{font-weight:700; font-size:14px; margin-bottom:2px;}
   .place .pdesc{font-size:12.5px; color:#555; line-height:1.4;}
   .place a.dirlink{font-size:11.5px; color:var(--green-dark); text-decoration:none; font-weight:600;}
+
+  table.foodtable{width:100%; border-collapse:collapse;}
+  table.foodtable th{text-align:left; font-size:9.5px; text-transform:uppercase; letter-spacing:.3px;
+    color:var(--muted); padding:0 4px 6px; border-bottom:1px solid var(--line); font-weight:700;}
+  table.foodtable th.tagcol{text-align:center;}
+  table.foodtable td{padding:9px 4px; border-bottom:1px solid #f0f0ee; vertical-align:top; font-size:12.5px;}
+  table.foodtable tr:last-child td{border-bottom:none;}
+  table.foodtable td.name{font-weight:700; color:var(--text);}
+  table.foodtable td .addr{display:block; font-weight:400; color:var(--muted); font-size:11px; margin-top:1px;}
+  table.foodtable td .note{display:block; font-weight:400; color:#555; font-size:11.5px; margin-top:3px; line-height:1.35;}
+  table.foodtable td.tag{text-align:center; font-size:15px; white-space:nowrap;}
+  table.foodtable td.tag .yes{color:#16a34a;}
+  table.foodtable td.tag .partial{color:#d97706;}
 </style>
 </head>
 <body>
@@ -149,6 +176,10 @@
 <input class="tabctl" type="radio" name="dtab" id="dtab-rio" checked>
 <input class="tabctl" type="radio" name="dtab" id="dtab-foz">
 <input class="tabctl" type="radio" name="dtab" id="dtab-buzios">
+<input class="tabctl" type="radio" name="tab" id="nav-food">
+<input class="tabctl" type="radio" name="ftab" id="ftab-rio" checked>
+<input class="tabctl" type="radio" name="ftab" id="ftab-foz">
+<input class="tabctl" type="radio" name="ftab" id="ftab-buzios">
 
 <header>
   <h1>🇧🇷 Brazil Trip 2026</h1>
@@ -310,6 +341,113 @@
     </div>
   </section>
 
+  <!-- FOOD / DIETARY -->
+  <section class="view" id="view-food">
+    <div class="offline-note">Vegetarian (🌱) and gluten-free (🌾) options by stop. GF = gluten-free.</div>
+
+    <div class="sectiontabs">
+      <label for="ftab-rio">Rio (10–16 Aug)</label>
+      <label for="ftab-foz">Foz (16–20 Aug)</label>
+      <label for="ftab-buzios">Búzios (20–24 Aug)</label>
+    </div>
+
+    <div class="card fcat" id="fcat-rio">
+      <h2>Rio de Janeiro — Copacabana area</h2>
+      <table class="foodtable">
+        <tr><th>Restaurant</th><th class="tagcol">🌱 Veg</th><th class="tagcol">🌾 GF</th></tr>
+        <tr>
+          <td class="name">Prana Vegetariano
+            <span class="note">All-vegetarian, most dishes vegan/GF too. Pizza (Thu–Sat) with tofu or mozzarella.</span>
+          </td>
+          <td class="tag"><span class="yes">✓</span></td>
+          <td class="tag"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="name">Bio Carioca
+            <span class="note">Vegetarian menu — salads, pizza, pasta, juices. Lactose-free and egg-free options too.</span>
+          </td>
+          <td class="tag"><span class="yes">✓</span></td>
+          <td class="tag"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="name">New Natural
+            <span class="note">Long-running health-food spot near Copacabana with a vegetarian buffet by weight.</span>
+          </td>
+          <td class="tag"><span class="yes">✓</span></td>
+          <td class="tag"><span class="partial">~</span></td>
+        </tr>
+        <tr>
+          <td class="name">Talho Capixaba
+            <span class="note">Upscale deli/grill — not vegetarian-focused, but reliable for gluten-free cuts and sides.</span>
+          </td>
+          <td class="tag">–</td>
+          <td class="tag"><span class="yes">✓</span></td>
+        </tr>
+      </table>
+      <div class="detail" style="margin-top:8px;">"Sou vegetariano/a" and "Sem glúten, por favor" (no gluten, please) both go a long way — see the Phrases tab.</div>
+    </div>
+
+    <div class="card fcat" id="fcat-foz">
+      <h2>Foz do Iguaçu</h2>
+      <table class="foodtable">
+        <tr><th>Restaurant</th><th class="tagcol">🌱 Veg</th><th class="tagcol">🌾 GF</th></tr>
+        <tr>
+          <td class="name">Equilíbrio Gastronomia
+            <span class="addr">Rua Taroba, 719 — downtown</span>
+            <span class="note">Everything on the menu is gluten- and lactose-free; plenty vegetarian, some vegan. Lunch 11:00–15:00.</span>
+          </td>
+          <td class="tag"><span class="yes">✓</span></td>
+          <td class="tag"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="name">Pátio Pomare
+            <span class="note">Greek-inspired complex — café, pizzeria and "fit food" counter. Well-regarded gluten-free menu.</span>
+          </td>
+          <td class="tag"><span class="partial">~</span></td>
+          <td class="tag"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="name">Pop Art Café
+            <span class="note">City-centre vegetarian/vegan café with gluten- and lactose-free items too.</span>
+          </td>
+          <td class="tag"><span class="yes">✓</span></td>
+          <td class="tag"><span class="partial">~</span></td>
+        </tr>
+        <tr>
+          <td class="name">ProSaude
+            <span class="note">Salads, natural juices and gluten-free dishes — vegetarian and vegan friendly.</span>
+          </td>
+          <td class="tag"><span class="yes">✓</span></td>
+          <td class="tag"><span class="yes">✓</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card fcat" id="fcat-buzios">
+      <h2>Búzios — Rua das Pedras area</h2>
+      <table class="foodtable">
+        <tr><th>Restaurant</th><th class="tagcol">🌱 Veg</th><th class="tagcol">🌾 GF</th></tr>
+        <tr>
+          <td class="name">Alelhí Restaurante &amp; Mercado Sem Glúten
+            <span class="addr">Rua das Pedras, 233</span>
+            <span class="note">Dedicated gluten-free restaurant and market — the safest GF option on the strip.</span>
+          </td>
+          <td class="tag"><span class="partial">~</span></td>
+          <td class="tag"><span class="yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="name">Dom Juan
+            <span class="addr">Rua das Pedras, 70</span>
+            <span class="note">Refined dining with well-executed vegetarian options and a strong wine list.</span>
+          </td>
+          <td class="tag"><span class="yes">✓</span></td>
+          <td class="tag"><span class="partial">~</span></td>
+        </tr>
+      </table>
+      <div class="detail" style="margin-top:8px;">Most restaurants on Rua das Pedras will accommodate with advance notice — flag allergies to staff when booking, not just on arrival.</div>
+    </div>
+  </section>
+
   <!-- PHRASEBOOK -->
   <section class="view" id="view-phrases">
     <div class="sectiontabs">
@@ -451,6 +589,7 @@
 <nav class="tabbar">
   <label for="nav-itinerary"><span class="ic">🗓️</span>Itinerary</label>
   <label for="nav-todo"><span class="ic">🧭</span>To do</label>
+  <label for="nav-food"><span class="ic">🍽️</span>Food</label>
   <label for="nav-phrases"><span class="ic">💬</span>Phrases</label>
   <label for="nav-money"><span class="ic">💰</span>Money</label>
   <label for="nav-emergency"><span class="ic">🚨</span>Emergency</label>
